@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="/js/aframe.min.js"></script>
+    <script src="/js/spherical-env-map.js"></script>
+      <script src="/js/create-box-component.js"></script>
+      <script src="/js/remove-component.js"></script>
+  </head>
+      
+  <body id="bod">
+      <a-scene>
+        <!-- assets to be cached -->
+          <a-assets>
+              <img id="boxTexture" src="/assets/textures/clear.jpg">
+              <img id="boxCreateTexture" src="/assets/textures/create.jpg">
+              <img id="ground" src="/assets/textures/ground.png">
+              <img crossorigin="anonymous" id="skymap" src="/assets/textures/Sky.jpg">
+
+                    <audio id="guitarSound" crossorigin="anonymous" src="/assets/sound/guitar.mp3" ></audio>
+                    <audio id="drumSound" crossorigin="anonymous" src="/assets/sound/drum.mp3" ></audio>
+                    <audio id="pianoSound" crossorigin="anonymous" src="/assets/sound/piano.mp3" ></audio>
+                    <audio id="trumpetSound" crossorigin="anonymous" src="/assets/sound/trumpet.mp3" ></audio>
+                    <audio id="fluteSound" crossorigin="anonymous" src="/assets/sound/flute.mp3" ></audio>
+                    <audio id="electricSound" crossorigin="anonymous" src="/assets/sound/electronic.mp3" ></audio>
+                 
+
+          </a-assets>
+
+          
+          <a-entity id="dSound" sound="src:#drumSound"></a-entity>
+          <a-entity id="pSound" sound="src:#pianoSound"></a-entity>
+          <a-entity id="tSound" sound="src:#trumpetSound"></a-entity>
+          <a-entity id="fSound" sound="src:#fluteSound"></a-entity>
+          <a-entity id="eSound" sound="src:#electricSound"></a-entity>
+         <a-entity id="gSound" sound="src:#guitarSound"></a-entity>
+
+          <a-entity light="type:directional; castShadow:true; intensity:0.6; shadowBias:-0.000001; shadowMapWidth:1024; shadowMapHeight:1024;" position="-0.5 1 1"></a-entity>
+          <a-entity light="type: ambient; intensity: 1.0; color:#bbb;"></a-entity>    
+
+          <!-- two spheres that control the creation and deletion of elements -->
+          <a-sphere create-box-component src="#boxCreateTexture"  radius="4" position="5 3 -5" rotation="0 -45 0" scale="0.5 0.5 0.5"></a-sphere>
+          <!-- when hovered over the sphere will enlarge and then return after mouse has moved off -->
+          <a-sphere remove-component color="#FFF" radius="4" position="-5 3 -5" rotation="0 -45 0" scale="0.5 0.5 0.5"src="#boxTexture">
+            <a-animation attribute="scale" begin="mouseenter" dur="300" to="1 1 1"></a-animation>
+            <a-animation attribute="scale" begin="mouseleave" dur="300" to="0.5 0.5 0.5"></a-animation>
+          </a-sphere>
+
+          <!-- adding touch controls for mobile -->
+          <a-camera look-controls>
+              <a-cursor></a-cursor>
+          </a-camera>
+
+         
+
+          <a-entity id="plane" geometry="primitive:plane; width:80; height:80;" position="0 0 -4" rotation="-90 0 0" shadow="receive:true;" material="src:#ground; sphericalEnvMap:#skymap; roughness:0.5; metalness:0.0;"></a-entity>
+          
+          <a-entity id="sky"
+                    geometry="primitive:sphere; radius:500;"
+                    material="shader:flat; src:#skymap; side:back; height:2048; width:2048">
+          </a-entity>
+
+    </a-scene>
+  </body>
+</html>
